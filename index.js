@@ -8,6 +8,8 @@ const prevButton = document.querySelector('[data-js="button-prev"]');
 const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
+const api = "https://rickandmortyapi.com/api";
+
 // States
 const maxPage = 1;
 const page = 1;
