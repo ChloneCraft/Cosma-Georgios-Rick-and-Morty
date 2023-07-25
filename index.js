@@ -15,28 +15,39 @@ import { createCharacterCard } from "./components/card/card.js";
 import { nextPage, previousPage } from "./components/nav-button/nav-button.js";
 
 // States
-const maxPage = 42;
+export let maxPage = 42;
 export let page = 1;
-const searchQuery = "";
-
-//createCharacterCard(); //testingpurposes
+let searchQuery = "";
 
 async function fetchData(url) {
   const response = await fetch(url);
   const data = await response.json();
+  maxPage = data.info["pages"];
   return data;
 }
 
-async function getCharArray(pageIndex) {
-  const characterData = await fetchData(
-    apiCharacters + "/?page=" + pageIndex.toString()
-  );
+// async function getCharArray(api) {
+//   const characterData = await fetchData(api + "/?page=" + page.toString());
+//   const characters = characterData.results;
+//   return characters;
+// }
+async function getCharArray() {
+  let characterData;
+  let url;
+  if (searchQuery === "") {
+    url = apiCharacters + "/?page=" + page.toString();
+  } else {
+    url = apiCharacters + "/?page=" + page.toString() + "&name=" + searchQuery;
+  }
+  console.log(url);
+  characterData = await fetchData(url);
+  console.log(characterData);
   const characters = characterData.results;
   return characters;
 }
 
 export async function fetchCharacters() {
-  let characters = await getCharArray(page);
+  let characters = await getCharArray();
   //imgURL, name, status, type, occurrences
   cardContainer.innerHTML = "";
   characters.forEach((character) => {
@@ -54,7 +65,6 @@ export async function fetchCharacters() {
     );
     cardContainer.append(newCard);
     updatePageDisplay();
-    console.log(imgURL);
   });
 }
 
@@ -65,7 +75,7 @@ prevButton.addEventListener("click", () => {
   previousPage();
 });
 
-export function updatePageDisplay() {
+function updatePageDisplay() {
   pagination.innerHTML = `${page} / ${maxPage}`;
 }
 
@@ -74,3 +84,11 @@ export function setPage(newPage) {
 }
 
 fetchCharacters();
+
+searchBar.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const data = Object.fromEntries(formData).query;
+  searchQuery = data;
+  fetchCharacters();
+});

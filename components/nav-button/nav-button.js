@@ -1,11 +1,11 @@
-import { page } from "../../index.js";
+import { page, maxPage } from "../../index.js";
 import { setPage } from "../../index.js";
 import { fetchCharacters } from "../../index.js";
-const prevButton = document.querySelector('[data-js="button-prev"]');
-const nextButton = document.querySelector('[data-js="button-next"]');
+// const prevButton = document.querySelector('[data-js="button-prev"]');
+// const nextButton = document.querySelector('[data-js="button-next"]');
 
 export function nextPage(event) {
-  if (page === 42) {
+  if (page === maxPage) {
     event.preventDefault();
   }
   setPage(page + 1);
