@@ -2,17 +2,33 @@ const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
   '[data-js="search-bar-container"]'
 );
-const searchBar = document.querySelector('[data-js="search-bar"]');
+// const searchBar = document.querySelector('[data-js="search-bar"]');
 const navigation = document.querySelector('[data-js="navigation"]');
-const prevButton = document.querySelector('[data-js="button-prev"]');
-const nextButton = document.querySelector('[data-js="button-next"]');
-const pagination = document.querySelector('[data-js="pagination"]');
+// const prevButton = document.querySelector('[data-js="button-prev"]');
+// const nextButton = document.querySelector('[data-js="button-next"]');
+// const pagination = document.querySelector('[data-js="pagination"]');
 
-const api = "https://rickandmortyapi.com/api";
 const apiCharacters = "https://rickandmortyapi.com/api/character";
 
 import { createCharacterCard } from "./components/card/card.js";
-import { nextPage, previousPage } from "./components/nav-button/nav-button.js";
+import {
+  nextPage,
+  previousPage,
+  createNextButton,
+  createPreviousButton,
+} from "./components/nav-button/nav-button.js";
+import { createPagination } from "./components/nav-pagination/nav-pagination.js";
+import { createSearchBar } from "./components/search-bar/search-bar.js";
+
+//creating pageElements
+const pagination = createPagination();
+const nextButton = createNextButton();
+const prevButton = createPreviousButton();
+const searchBar = createSearchBar();
+
+//append elements
+navigation.append(prevButton, pagination, nextButton);
+document.querySelector("main").prepend(searchBar);
 
 // States
 export let maxPage = 42;
@@ -90,5 +106,11 @@ searchBar.addEventListener("submit", (event) => {
   const formData = new FormData(event.target);
   const data = Object.fromEntries(formData).query;
   searchQuery = data;
+  if (data === "") {
+    return;
+  } else {
+    setPage(1);
+  }
   fetchCharacters();
 });
+createPagination();
