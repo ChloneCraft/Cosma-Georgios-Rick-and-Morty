@@ -19,7 +19,8 @@ export function createNextButton() {
 
 export function nextPage(event) {
   if (page === maxPage) {
-    event.preventDefault();
+    // event.preventDefault();
+    return;
   }
   setPage(page + 1);
   fetchCharacters();

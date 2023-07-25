@@ -1,7 +1,7 @@
 const cardContainer = document.querySelector('[data-js="card-container"]');
-const searchBarContainer = document.querySelector(
-  '[data-js="search-bar-container"]'
-);
+// const searchBarContainer = document.querySelector(
+//   '[data-js="search-bar-container"]'
+// );
 
 const navigation = document.querySelector('[data-js="navigation"]');
 // const prevButton = document.querySelector('[data-js="button-prev"]');
@@ -32,7 +32,7 @@ navigation.append(prevButton, pagination, nextButton);
 document.querySelector("main").prepend(searchBar);
 
 // States
-export let maxPage = 42;
+export let maxPage;
 export let page = 1;
 let searchQuery = "";
 
@@ -51,9 +51,7 @@ async function getCharArray() {
   } else {
     url = apiCharacters + "/?page=" + page.toString() + "&name=" + searchQuery;
   }
-  console.log(url);
   characterData = await fetchData(url);
-  console.log(characterData);
   const characters = characterData.results;
   return characters;
 }
@@ -108,4 +106,3 @@ searchBar.addEventListener("submit", (event) => {
   }
   fetchCharacters();
 });
-createPagination();
