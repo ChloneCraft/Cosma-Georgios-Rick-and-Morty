@@ -12,10 +12,11 @@ const api = "https://rickandmortyapi.com/api";
 const apiCharacters = "https://rickandmortyapi.com/api/character";
 
 import { createCharacterCard } from "./components/card/card.js";
+import { nextPage, previousPage } from "./components/nav-button/nav-button.js";
 
 // States
 const maxPage = 42;
-const page = 1;
+export let page = 1;
 const searchQuery = "";
 
 //createCharacterCard(); //testingpurposes
@@ -26,22 +27,50 @@ async function fetchData(url) {
   return data;
 }
 
-async function fetchCharacters(pageIndex) {
-  const characterData = await fetchData(apiCharacters + "/?page=" + pageIndex);
-  console.log(characterData);
+async function getCharArray(pageIndex) {
+  const characterData = await fetchData(
+    apiCharacters + "/?page=" + pageIndex.toString()
+  );
   const characters = characterData.results;
   return characters;
 }
 
-let characters = await fetchCharacters("4");
-//imgURL, name, status, type, occurrences
-cardContainer.innerHTML = "";
-characters.forEach((character) => {
-  const imgURL = character.image;
-  const name = character.name;
-  const status = character.status;
-  const type = character.type;
-  const occurrences = character.episode.length;
-  const newCard = createCharacterCard(imgURL, name, status, type, occurrences);
-  cardContainer.append(newCard);
+export async function fetchCharacters() {
+  let characters = await getCharArray(page);
+  //imgURL, name, status, type, occurrences
+  cardContainer.innerHTML = "";
+  characters.forEach((character) => {
+    const imgURL = character.image;
+    const name = character.name;
+    const status = character.status;
+    const type = character.type;
+    const occurrences = character.episode.length;
+    const newCard = createCharacterCard(
+      imgURL,
+      name,
+      status,
+      type,
+      occurrences
+    );
+    cardContainer.append(newCard);
+    updatePageDisplay();
+    console.log(imgURL);
+  });
+}
+
+nextButton.addEventListener("click", () => {
+  nextPage();
 });
+prevButton.addEventListener("click", () => {
+  previousPage();
+});
+
+export function updatePageDisplay() {
+  pagination.innerHTML = `${page} / ${maxPage}`;
+}
+
+export function setPage(newPage) {
+  page = newPage;
+}
+
+fetchCharacters();
