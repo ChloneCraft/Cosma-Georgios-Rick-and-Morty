@@ -2,12 +2,6 @@ import { page, maxPage } from "../../index.js";
 import { setPage } from "../../index.js";
 import { fetchCharacters } from "../../index.js";
 
-/*{
-   <button class="button button--prev" data-js="button-prev">
-        previous
-      </button>
-      <button class="button button--next" data-js="button-next">next</button> 
-}*/
 export function createPreviousButton() {
   const prevButton = document.createElement("button");
   prevButton.classList.add("button", "button--prev");
