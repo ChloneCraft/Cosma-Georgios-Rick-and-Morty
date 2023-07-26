@@ -30,3 +30,5 @@ export function createSearchBar() {
 
   return searchBarContainer;
 }
+
+//this creates the searchbar

@@ -17,6 +17,7 @@ export function createNextButton() {
   return nextButton;
 }
 
+//go to next page except for when you are at the last page
 export function nextPage(event) {
   if (page === maxPage) {
     // event.preventDefault();
@@ -25,6 +26,8 @@ export function nextPage(event) {
   setPage(page + 1);
   fetchCharacters();
 }
+
+//same as nextPage() but for previous
 export function previousPage(event) {
   if (page === 1) {
     event.preventDefault();
