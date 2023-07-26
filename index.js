@@ -100,6 +100,8 @@ searchBar.addEventListener("submit", (event) => {
   const data = Object.fromEntries(formData).query;
   searchQuery = data;
   if (data === "") {
+    searchQuery = "";
+    fetchCharacters();
     return;
   } else {
     setPage(1);
